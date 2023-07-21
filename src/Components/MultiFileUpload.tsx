@@ -5,12 +5,14 @@ interface MultiFileUploadProps {
   UpdateForm: (key: string, val: any) => void;
 }
 
-const MultiFileUpload: React.FC<MultiFileUploadProps> = ({handleNext,UpdateForm,}) => {
-
+const MultiFileUpload: React.FC<MultiFileUploadProps> = ({
+  handleNext,
+  UpdateForm,
+}) => {
   const [files, setFiles] = useState<File[]>([]);
   const [latitude, setLatitude] = useState<Number>();
   const [longitude, setLongitude] = useState<Number>();
-  const [geomessage,setgeoMessage] =  useState<string>("")
+  const [geomessage, setgeoMessage] = useState<string>("");
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -39,7 +41,9 @@ const MultiFileUpload: React.FC<MultiFileUploadProps> = ({handleNext,UpdateForm,
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files;
     if (files.length <= 4 && selectedFiles) {
-      setFiles([...files, selectedFiles[0]]);
+      if (selectedFiles[0]) {
+        setFiles([...files, selectedFiles[0]]);
+      }
     } else {
       alert("File Limit Exceed : Cannot Upload More than 5 Files");
     }
@@ -64,7 +68,11 @@ const MultiFileUpload: React.FC<MultiFileUploadProps> = ({handleNext,UpdateForm,
           Total File Uploaded {files.length}
         </div>
       </div>
-      <div className="flex justify-center">{geomessage.length == 0?"GeoLoaction Capturing .....":`${geomessage}`}</div>
+      <div className="flex justify-center">
+        {geomessage.length == 0
+          ? "GeoLoaction Capturing ....."
+          : `${geomessage}`}
+      </div>
       <div className="flex justify-center">
         <button
           className="px-4 py-2 my-6 bg-black text-white rounded-md"

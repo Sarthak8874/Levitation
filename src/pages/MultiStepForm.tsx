@@ -17,7 +17,7 @@ const MultiStepForm: React.FC = () => {
   const [step, setStep] = React.useState(1);
   const [progress, setProgress] = React.useState(0);
   const [formData, setFormdata] = React.useState({});
-  const [status, setstaus] = useState<Boolean>(false);
+  const [statusMess, setstausMess] = useState<string>("");
 
   const { userToken } = useContext(UserContext) as userTokenContextType;
 
@@ -26,11 +26,33 @@ const MultiStepForm: React.FC = () => {
     if (!userToken) {
       redirect("/");
     }
-  }, []);
+
+    if (step === 5) {
+      axios
+        .post("https://x8ki-letl-twmt.n7.xano.io/api:XooRuQbs/form", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
+          },
+        })
+        .then((res) => {
+          setstausMess("SuccessFully Sumbitted");
+          setProgress(progress + 20);
+          setStep(step + 1);
+          console.log(res);
+        })
+        .catch((e) => {
+          setstausMess("Not Sumbitted");
+          setProgress(progress + 20);
+          console.log(e);
+        });
+    }
+  }, [step]);
 
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
-    setProgress(progress + 25);
+
+    setProgress(progress + 20);
   };
 
   const UpdateForm = (key: string, val: any) => {
@@ -39,24 +61,7 @@ const MultiStepForm: React.FC = () => {
       [key]: val,
     }));
   };
-  console.log(formData);
-  if (step === 5) {
-    axios
-      .post("https://x8ki-letl-twmt.n7.xano.io/api:XooRuQbs/form", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-      .then((res) => {
-        setstaus(true);
-        console.log(res);
-      })
-      .catch((e) => {
-        setstaus(false);
-        console.log(e);
-      });
-  }
+
   const Step = () => {
     switch (step) {
       case 1:
@@ -82,19 +87,15 @@ const MultiStepForm: React.FC = () => {
         width="60vh"
         margin="30px 0px"
       />
-      {step === 5 ? (
-        status ? (
-          <>
-            <div className="text-green-600">Successfully Sumbited</div>
-          </>
-        ) : (
-          <>
-            <div className="text-red-500">Failure</div>
-          </>
-        )
+      {statusMess !=="" && (statusMess === "SuccessFully Sumbitted" ? (
+        <>
+          <div className="text-green-600">Successfully Sumbited</div>
+        </>
       ) : (
-        ""
-      )}
+        <>
+          <div className="text-red-500">Failure</div>
+        </>
+      ))}
       {Step()}
     </div>
   );

@@ -6,7 +6,7 @@ interface FileUploadProps {
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ handleNext,UpdateForm }) => {
-  const [single_file, setsingle_file] = React.useState<File | null>();
+  const [single_file, setsingle_file] = React.useState<File>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ handleNext,UpdateForm }) => {
           <input
             type="file"
             accept=".png,.pdf"
-            onChange={(e) => setsingle_file(e.target.files?.[0] || null)}
+            onChange={(e) =>  setsingle_file(e.target.files?.[0])}
             required
           />
         </div>
