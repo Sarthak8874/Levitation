@@ -43,6 +43,7 @@ const MultiStepForm: React.FC = () => {
         })
         .catch((e) => {
           setstausMess("Not Sumbitted");
+          setStep(step + 1);
           setProgress(progress + 20);
           console.log(e);
         });
@@ -89,11 +90,11 @@ const MultiStepForm: React.FC = () => {
       />
       {statusMess !=="" && (statusMess === "SuccessFully Sumbitted" ? (
         <>
-          <div className="text-green-600">Successfully Sumbited</div>
+          <div className="text-green-600">Successfully Sumbitted</div>
         </>
       ) : (
         <>
-          <div className="text-red-500">Failure</div>
+          <div className="text-red-500">Not Sumbitted</div>
         </>
       ))}
       {Step()}
