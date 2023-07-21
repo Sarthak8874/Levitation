@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { UserContext } from "../Context/Context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 
 type userTokenContextType = {
@@ -87,6 +87,7 @@ const LoginPage = () => {
               required
             />
           </div>
+          <Link to='/forgotpassword' className="text-blue-400 underline">Forgot Password</Link>
           <button
             className="px-4 py-2 my-6 bg-black text-white rounded-md"
             onClick={handleLogin}
